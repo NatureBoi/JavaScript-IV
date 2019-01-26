@@ -24,6 +24,20 @@ class Instructor extends Person {
   grade(student, subject) {
     return `${student.name} receives a perfect score on ${subject}`;
   }
+
+  modGrade(student){
+    let points = Math.floor(Math.random() * 50);
+    let chance = Math.floor(Math.random() * 2);
+    if(chance === 0){
+      student.grade -= points;
+      return `${this.name} removed ${points} points from ${student.grade}, \n 
+      ${student.name} now has ${student.grade} `
+    } else{
+      student.grade += points;
+      return `${this.name} added ${points} points to ${student.grade}, \n 
+      ${student.name} now has ${student.grade} `
+    }
+  }
 }
 
 class Student extends Person {
@@ -43,6 +57,13 @@ class Student extends Person {
   }
   sprintChallenge(subject) {
     return `${this.name} has begun sprint challenge on ${subject}`;
+  }
+  graduate(){
+    if(this.grade > (100*.7)){
+      return `${this.name} is ready to Graduate with ${this.grade} !!!!! Congratz ${this.name}`
+    } else{
+        return `Hit the books ${this.name} you have a long way to go -_-`
+    }
   }
 }
 
@@ -116,3 +137,6 @@ console.log(elvis.demo("React"));
 console.log(elvis.grade(me, "React"));
 console.log(elvis.standUp("Elvis-PT4"));
 console.log(elvis.debugsCode(me, "Applied JavaScript"));
+console.log(elvis.modGrade(me))
+
+console.log(me.graduate())

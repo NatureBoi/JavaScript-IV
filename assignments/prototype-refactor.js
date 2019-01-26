@@ -80,21 +80,44 @@ class Humanoid extends CharacterStats {
     this.weapons = attributes.weapons;
     this.language = attributes.language;
   }
-
   greet() {
     return `${this.name} offers a greeting in ${this.language}`;
   }
+  att(enemy){
+    let damage = Math.floor(Math.random(100) * 50);
+    enemy.healthPoints -= damage;
+    if (enemy.healthPoints <= 0) {
+      return enemy.destroy();
+    } else {
+      return `${enemy.name} took ${damage} points of damage`;
+      }
+    }
+    ult(enemy){
+      let damage = Math.floor(Math.random() * (100 - 50) + 50);
+      enemy.healthPoints -= damage;
+      if (enemy.healthPoints <= 0) {
+        return `${this.name} uses ${this.ultimate} on ${
+          enemy.name
+        } for ${damage} points! ${enemy.destroy()}`;
+      } else {
+        return `${this.name} uses ${this.ultimate} on ${
+          enemy.name
+        }, and deals ${damage} points of damage`;
+      }
+    }
 }
 
 class Villain extends Humanoid {
   constructor(attributes) {
     super(attributes);
+    this.ultimate = attributes.ultimate;
   }
 }
 
 class Hero extends Humanoid {
   constructor(attributes) {
     super(attributes);
+    this.ultimate = attributes.ultimate;
   }
 }
 
@@ -167,7 +190,8 @@ const licht = new Villain({
   name: "Licht",
   team: "Eye of Midnight",
   weapons: ["Light-Magic", "Spatial-Magic", "Fire"],
-  language: "Elvish"
+  language: "Elvish",
+  ultimate: 'Light Blade',
 });
 
 const yami = new Hero({
@@ -181,5 +205,15 @@ const yami = new Hero({
   name: "Yami",
   team: "Black Bulls",
   weapons: ["Katana", "Dark-Magic"],
-  language: "Common Tongue"
+  language: "Common Tongue",
+  ultimate: 'Shadow Slash'
 });
+
+
+console.log(yami.att(licht));
+console.log(licht.att(yami));
+console.log(yami.att(licht));
+console.log(licht.att(yami));
+console.log(yami.ult(licht));
+console.log(licht.ult(yami));
+console.log(yami.ult(licht));
